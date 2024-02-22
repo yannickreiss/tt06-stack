@@ -43,35 +43,51 @@ module tt_um_yannickreiss_stack (
       instructionDone = 1'b1;
       stack_pointer = 4'b0;
       state = 3'b0;
-      for (int i = 0; i <= 15; i = i + 1) begin
-        memory_block[i] <= 8'b0;
-      end
+      for (int i = 0; i <= 15; i = i + 1)
+        begin
+          memory_block[i] <= 8'b0;
+        end
     end
 
   // Set uio_oe according to state.
-  always @* begin
-    case (state)
-      3'b001, 3'b010: uio_oe = 8'b00000000;
-      default: uio_oe = 8'b11111111;
-    endcase
-  end
+  always @*
+    begin
+      case (state)
+        3'b001, 3'b010:
+          uio_oe = 8'b00000000;
+        default:
+          uio_oe = 8'b11111111;
+      endcase
+    end
 
 
   // Update state on clock updates
-  always @(posedge clk) begin
-    case (state)
-      3'b001: state = 3'b010;
-      3'b011: state = 3'b100;
-      default: state = 3'b000;
-    endcase
-
-    if (state == 3'b000) begin
-      if (push == 1'b1) begin
-        state = 3'b001;
-      end
-      else if (pop == 1'b0) begin
-        state = 3'b011;
-      end
+  always @(posedge clk)
+    begin
+      if (state == 3'b000)
+        begin
+          if (push == 1'b1)
+            begin
+              state = 3'b001;
+            end
+          else
+            begin
+              if (pop == 1'b0)
+                begin
+                  state = 3'b011;
+                end
+              else
+                begin
+                  case (state)
+                    3'b001:
+                      state = 3'b010;
+                    3'b011:
+                      state = 3'b100;
+                    default:
+                      state = 3'b000;
+                  endcase
+                end
+            end
+        end
     end
-  end
 endmodule
