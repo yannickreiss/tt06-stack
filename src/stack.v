@@ -47,8 +47,6 @@ module tt_um_yannickreiss_stack (
       if (rst_n == 1'b0)
         begin
           instructionDone = 1'b1;
-          stack_pointer = 4'b0;
-          cell_output = 8'b0;
         end
     end
 
@@ -64,20 +62,37 @@ module tt_um_yannickreiss_stack (
     end
 
   // Read / write operation, depending on state
-  always @(posedge clk )
+  always @(posedge clk or negedge rst_n)
     begin
       if (rst_n == 1'b1)
         begin
           case (state)
             3'b001:
-              memory_block[stack_pointer] = uio_in;
+              begin
+                memory_block[stack_pointer] = uio_in;
+                stack_pointer = stack_pointer;
+              end
             3'b010:
-              stack_pointer = stack_pointer + 1;
+              begin
+                stack_pointer = stack_pointer + 1;
+                memory_block[stack_pointer] = memory_block[stack_pointer];
+              end
             3'b011:
-              stack_pointer = stack_pointer - 1;
+              begin
+                stack_pointer = stack_pointer - 1;
+                memory_block[stack_pointer] = memory_block[stack_pointer];
+              end
             default:
-              cell_output = memory_block[stack_pointer];
+              begin
+                cell_output = memory_block[stack_pointer];
+                stack_pointer = stack_pointer;
+              end
           endcase
+        end
+      else
+        begin
+          stack_pointer = 4'b0;
+          cell_output = 8'b0;
         end
     end
 
