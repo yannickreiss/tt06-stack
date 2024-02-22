@@ -46,7 +46,7 @@ module tt_um_yannickreiss_stack (
     begin
       if (rst_n == 1'b0)
         begin
-          instructionDone = 1'b1;
+          instructionDone <= 1'b1;
         end
     end
 
@@ -69,30 +69,30 @@ module tt_um_yannickreiss_stack (
           case (state)
             3'b001:
               begin
-                memory_block[stack_pointer] = uio_in;
+                memory_block[stack_pointer] <= uio_in;
                 stack_pointer = stack_pointer;
               end
             3'b010:
               begin
-                stack_pointer = stack_pointer + 1;
-                memory_block[stack_pointer] = memory_block[stack_pointer];
+                stack_pointer <= stack_pointer + 1;
+                memory_block[stack_pointer] <= memory_block[stack_pointer];
               end
             3'b011:
               begin
-                stack_pointer = stack_pointer - 1;
-                memory_block[stack_pointer] = memory_block[stack_pointer];
+                stack_pointer <= stack_pointer - 1;
+                memory_block[stack_pointer] <= memory_block[stack_pointer];
               end
             default:
               begin
-                cell_output = memory_block[stack_pointer];
+                cell_output <= memory_block[stack_pointer];
                 stack_pointer = stack_pointer;
               end
           endcase
         end
       else
         begin
-          stack_pointer = 4'b0;
-          cell_output = 8'b0;
+          stack_pointer<= 4'b0;
+          cell_output <= 8'b0;
         end
     end
 
@@ -103,23 +103,23 @@ module tt_um_yannickreiss_stack (
         begin
           if (push == 1'b1)
             begin
-              state = 3'b001;
+              state <= 3'b001;
             end
           else
             begin
               if (pop == 1'b0)
                 begin
-                  state = 3'b011;
+                  state <= 3'b011;
                 end
               else
                 begin
                   case (state)
                     3'b001:
-                      state = 3'b010;
+                      state <= 3'b010;
                     3'b011:
-                      state = 3'b100;
+                      state <= 3'b100;
                     default:
-                      state = 3'b000;
+                      state <= 3'b000;
                   endcase
                 end
             end
