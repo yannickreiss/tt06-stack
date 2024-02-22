@@ -19,13 +19,14 @@ module tt_um_yannickreiss_stack (
   // All output pins must be assigned. If not used, assign to 0.
   assign uo_out[6:0]  = 0;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = 0;
-  assign uio_oe  = 0;
+  assign uio_oe  = bus_io;
 
 
   // I/O ports
   wire push;
   wire pop;
   reg  instructionDone;
+  reg[7:0] bus_io;
 
   assign push = ui_in[7];
   assign pop  = ui_in[6];
@@ -36,7 +37,7 @@ module tt_um_yannickreiss_stack (
   reg [3:0] stack_pointer;
 
   // State machine
-  reg [1:0] state; // 000: Idle, 001: push write, 010: push raise, 011: pull dec, 100: pull read cell
+  reg [2:0] state; // 000: Idle, 001: push write, 010: push raise, 011: pull dec, 100: pull read cell
 
   always @(negedge rst_n)
     begin
@@ -54,12 +55,11 @@ module tt_um_yannickreiss_stack (
     begin
       case (state)
         3'b001, 3'b010:
-          uio_oe = 8'b00000000;
+          bus_io = 8'b00000000;
         default:
-          uio_oe = 8'b11111111;
+          bus_io = 8'b11111111;
       endcase
     end
-
 
   // Update state on clock updates
   always @(posedge clk)
