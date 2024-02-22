@@ -31,12 +31,12 @@ module tt_um_yannickreiss_stack (
   assign push = ui_in[7];
   assign pop  = ui_in[6];
   assign uo_out[7] = instructionDone;
-  assign uo_out[6] = (stack_pointer == {8{1'b0}}) ? 1'b1 : 1'b0;
-  assign uo_out[5] = (stack_pointer == {8{1'b1}}) ? 1'b1 : 1'b0;
+  assign uo_out[6] = (stack_pointer == {6{1'b0}}) ? 1'b1 : 1'b0;
+  assign uo_out[5] = (stack_pointer == {6{1'b1}}) ? 1'b1 : 1'b0;
 
   // memory block
-  reg [7:0] memory_block [0:256];
-  reg [7:0] stack_pointer;
+  reg [7:0] memory_block [0:63];
+  reg [5:0] stack_pointer;
   reg [7:0] cell_output;
 
   // State machine
@@ -91,7 +91,7 @@ module tt_um_yannickreiss_stack (
         end
       else
         begin
-          stack_pointer<= 8'b0;
+          stack_pointer<= 6'b0;
           cell_output <= 8'b0;
         end
     end
