@@ -47,4 +47,12 @@ module tt_um_yannickreiss_stack (
         memory_block[i] <= 8'b0;
       end
     end
+
+  // Set uio_oe according to state.
+  always @* begin
+    case (state)
+      3'b001, 3'b010: uio_oe = 8'b00000000;
+      default: uio_oe = 8'b11111111;
+    endcase
+  end
 endmodule
