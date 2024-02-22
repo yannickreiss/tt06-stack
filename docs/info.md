@@ -14,6 +14,12 @@ A pointer points to the current cell in the memory block.
 Read and write instructions ( push and pop ) can be activated with the input pins 7 and 6.
 After the operation is done, the output pin 7 is set to high to signal, that the stack is in idle mode now.
 
+### Warning
+
+The memory is neither write, nor overflow / underflow protected.
+The ports 6 and 5 are set high, when the stack pointer is zero, or at max value.
+This can be read and handled by the controlling entity.
+
 ## How to test
 
 Connect the bidirectional pins to input and output devices.

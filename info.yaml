@@ -31,8 +31,8 @@ pinout:
 
   # Outputs
   uo[0]: "Set instruction done"
-  uo[1]: ""
-  uo[2]: ""
+  uo[1]: "Stack empty"
+  uo[2]: "Stack full"
   uo[3]: ""
   uo[4]: ""
   uo[5]: ""
