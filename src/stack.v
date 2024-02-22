@@ -31,6 +31,8 @@ module tt_um_yannickreiss_stack (
   assign push = ui_in[7];
   assign pop  = ui_in[6];
   assign uo_out[7] = instructionDone;
+  assign uo_out[6] = (stack_pointer == 0);
+  assign uo_out[5] = (stack_pointer == 15);
 
   // memory block
   reg [7:0] memory_block [0:15];
