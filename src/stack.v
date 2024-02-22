@@ -47,10 +47,6 @@ module tt_um_yannickreiss_stack (
       instructionDone = 1'b1;
       stack_pointer = 4'b0;
       cell_output = 8'b0;
-      for (int i = 0; i <= 15; i = i + 1)
-        begin
-          memory_block[i] <= 8'b0;
-        end
     end
 
   // Set uio_oe according to state.
