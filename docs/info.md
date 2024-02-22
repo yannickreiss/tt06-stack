@@ -9,12 +9,17 @@ You can also include images in this folder and reference them in the markdown. E
 
 ## How it works
 
-Explain how your project works
+Stores memory in an internal memory block.
+A pointer points to the current cell in the memory block.
+Read and write instructions ( push and pop ) can be activated with the input pins 7 and 6.
+After the operation is done, the output pin 7 is set to high to signal, that the stack is in idle mode now.
 
 ## How to test
 
-Explain how to use your project
+Connect the bidirectional pins to input and output devices.
+Push different numbers using the instruction pin, then pop those numbers again.
+They should be in reversed order.
 
 ## External hardware
 
-List external hardware used in your project (e.g. PMOD, LED display, etc), if any
+Clock with needed frequency, buttons for instructions, switches for bidirectional bus, LEDs for idle notifier and bidirectional bus
