@@ -43,7 +43,6 @@ module tt_um_yannickreiss_stack (
     begin
       instructionDone = 1'b1;
       stack_pointer = 4'b0;
-      state = 3'b0;
       for (int i = 0; i <= 15; i = i + 1)
         begin
           memory_block[i] <= 8'b0;
