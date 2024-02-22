@@ -35,13 +35,16 @@ module tt_um_yannickreiss_stack (
   reg [7:0] memory_block [0:15];
   reg [3:0] stack_pointer;
 
-  always @(posedge clk, negedge rst_n)
+  // State machine
+  reg [1:0] state; // 000: Idle, 001: push write, 010: push raise, 011: pull dec, 100: pull read cell
+
+  always @(negedge rst_n)
     begin
       instructionDone = 1'b1;
       stack_pointer = 4'b0;
+      state = 3'b0;
       for (int i = 0; i <= 15; i = i + 1) begin
         memory_block[i] <= 8'b0;
       end
     end
-
 endmodule
