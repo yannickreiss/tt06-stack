@@ -65,7 +65,7 @@ module tt_um_yannickreiss_stack (
   // Read / write operation, depending on state
   always @(posedge clk )
     begin
-      if (rst_n == 1'b0)
+      if (rst_n == 1'b1)
         begin
           case (state)
             3'b001:
