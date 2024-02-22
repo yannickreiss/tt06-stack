@@ -17,7 +17,7 @@ module tt_um_yannickreiss_stack (
 );
 
   // All output pins must be assigned. If not used, assign to 0.
-  assign uo_out  = ui_in + uio_in;  // Example: ou_out is the sum of ui_in and uio_in
+  assign uo_out[6:0]  = 0;  // Example: ou_out is the sum of ui_in and uio_in
   assign uio_out = 0;
   assign uio_oe  = 0;
 
@@ -30,5 +30,9 @@ module tt_um_yannickreiss_stack (
   assign push = ui_in[7];
   assign pop  = ui_in[6];
   assign uo_out[7] = instructionDone;
+
+  // memory block
+  reg [7:0] memory_block [0:15];
+  reg [3:0] stack_pointer;
 
 endmodule
