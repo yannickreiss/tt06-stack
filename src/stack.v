@@ -14,7 +14,7 @@ module tt_um_yannickreiss_stack (
     input  wire       ena,      // will go high when the design is enabled
     input  wire       clk,      // clock
     input  wire       rst_n     // reset_n - low to reset
-);
+  );
 
   // All output pins must be assigned. If not used, assign to 0.
   assign uo_out[6:0]  = 0;  // Example: ou_out is the sum of ui_in and uio_in
@@ -25,7 +25,7 @@ module tt_um_yannickreiss_stack (
   // I/O ports
   wire push;
   wire pop;
-  wire instructionDone;
+  reg  instructionDone;
 
   assign push = ui_in[7];
   assign pop  = ui_in[6];
@@ -34,5 +34,14 @@ module tt_um_yannickreiss_stack (
   // memory block
   reg [7:0] memory_block [0:15];
   reg [3:0] stack_pointer;
+
+  always @(posedge clk, negedge rst_n)
+    begin
+      instructionDone = 1'b1;
+      stack_pointer = 4'b0;
+      for (int i = 0; i <= 15; i = i + 1) begin
+        memory_block[i] <= 8'b0;
+      end
+    end
 
 endmodule
