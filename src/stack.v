@@ -93,6 +93,10 @@ module tt_um_yannickreiss_stack (
         begin
           stack_pointer<= 7'b0;
           cell_output <= 8'b0;
+          for (int i = 0; i < 128; i = i + 1)
+            begin
+              memory_block[i] = 8'h00;
+            end
         end
     end
 
