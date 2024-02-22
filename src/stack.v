@@ -55,4 +55,23 @@ module tt_um_yannickreiss_stack (
       default: uio_oe = 8'b11111111;
     endcase
   end
+
+
+  // Update state on clock updates
+  always @(posedge clk) begin
+    case (state)
+      3'b001: state = 3'b010;
+      3'b011: state = 3'b100;
+      default: state = 3'b000;
+    endcase
+
+    if (state == 3'b000) begin
+      if (push == 1'b1) begin
+        state = 3'b001;
+      end
+      else if (pop == 1'b0) begin
+        state = 3'b011;
+      end
+    end
+  end
 endmodule
