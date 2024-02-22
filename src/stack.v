@@ -63,18 +63,22 @@ module tt_um_yannickreiss_stack (
     end
 
   // Read / write operation, depending on state
-  always @(posedge clk ) begin
-    case (state)
-      3'b001: 
-        memory_block[stack_pointer] = uio_in;
-      3'b010:
-        stack_pointer = stack_pointer + 1;
-      3'b011:
-        stack_pointer = stack_pointer - 1;
-      default:
-        cell_output = memory_block[stack_pointer];
-    endcase
-  end
+  always @(posedge clk )
+    begin
+      if (rst_n == 1'b0)
+        begin
+          case (state)
+            3'b001:
+              memory_block[stack_pointer] = uio_in;
+            3'b010:
+              stack_pointer = stack_pointer + 1;
+            3'b011:
+              stack_pointer = stack_pointer - 1;
+            default:
+              cell_output = memory_block[stack_pointer];
+          endcase
+        end
+    end
 
   // Update state on clock updates
   always @(posedge clk)
