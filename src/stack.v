@@ -27,13 +27,14 @@ module tt_um_yannickreiss_stack (
   wire pop;
   reg  instructionDone;
   reg[7:0] bus_io;
+  reg parity;
 
   assign push = ui_in[7];
   assign pop  = ui_in[6];
   assign uo_out[7] = instructionDone;
   assign uo_out[6] = (stack_pointer == {7{1'b0}}) ? 1'b1 : 1'b0;
   assign uo_out[5] = (stack_pointer == {7{1'b1}}) ? 1'b1 : 1'b0;
-  assign uo_out[4] = memory_block[0][1] ^ memory_block[7][2] ^ memory_block[15][3] ^ memory_block[23][4] ^ memory_block[31][5] ^ memory_block[39][6] ^ memory_block[47][7];
+  assign uo_out[4] = parity;
 
   // memory block
   reg [7:0] memory_block [0:127];
@@ -129,5 +130,25 @@ module tt_um_yannickreiss_stack (
                 end
             end
         end
+      else begin
+        state <= state;
+      end
     end
+
+integer i;
+integer j;
+
+always @(posedge clk) begin
+    if (!rst_n) begin
+        parity <= 1'b0;
+    end
+    else
+        begin
+            for (i = 0; i < 127; i = i + 1) begin
+                for (j = 0; j < 7; j = j + 1) begin
+                    parity <= parity ^ memory_block[i][j];
+                end
+            end
+        end
+end
 endmodule
